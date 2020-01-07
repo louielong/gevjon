@@ -21,9 +21,6 @@ ENV GEVJON_REPO_DIR /root/gevjon
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-# Set TimeZone
-ENV TZ='Asia/Shanghai'
-
 #new required packages can be added here
 RUN apt update && apt install -y \
     git \
@@ -32,9 +29,17 @@ RUN apt update && apt install -y \
     python3-pip \
     python3-setuptools \
     --no-install-recommends && \
+    cp -a \
+    /usr/local/lib/python3.6/dist-packages/pytz/zoneinfo/Asia/Shanghai \
+    /etc/localtime && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt install -y tzdata &&\
     apt -y autoremove && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Set TimeZone, ubuntu 18.04 not have file /usr/share/zoneinfo/Asia/Shanghai
+# RUN cp -a /usr/local/lib/python3.6/dist-packages/pytz/zoneinfo/Asia/Shanghai /etc/localtime
 
 RUN git clone --depth=1 -b $BRANCH https://github.com/louielong/gevjon.git ${GEVJON_REPO_DIR}
 
@@ -46,3 +51,6 @@ RUN pip3 install -U ${GEVJON_REPO_DIR}
 RUN cp -a ${GEVJON_REPO_DIR}/crontab/cron-file /etc/cron.d/cron-file
 RUN chmod 0644 /etc/cron.d/cron-file
 RUN crontab /etc/cron.d/cron-file
+RUN service cron start
+
+ENTRYPOINT [ "/bin/bash" ]

@@ -45,4 +45,4 @@ RUN pip3 install -U ${GEVJON_REPO_DIR}
 
 RUN cp -a ${GEVJON_REPO_DIR}/crontab/cron-file /etc/cron.d/cron-file
 RUN chmod 0644 /etc/cron.d/cron-file
-RUN crontable /etc/cron.d/cron-file
+RUN crontab /etc/cron.d/cron-file

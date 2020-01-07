@@ -26,7 +26,7 @@ class Parser():
             'config.yaml')
 
         with open(config_dir) as file:
-            config_info = yaml.load(file)
+            config_info = yaml.safe_load(file)
             cls.config = config_info['common_config']
             cls.config_dir_check(cls.config["log_dir"])
 

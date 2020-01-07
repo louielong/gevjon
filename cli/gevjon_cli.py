@@ -1,19 +1,10 @@
 #!/usr/bin/env python3
-# ^-^ coding=utf-8 ^-^
-
 ##############################################################################
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-
-# > File Name: gevjon_cli.py
-# > Author: louie.long
-# > Mail: longyu805@163.com
-# > Created Time: Tue 31 Dec 2019 02:27:55 PM CST
-# > Description:
-# >
 
 import os
 import sys
@@ -43,7 +34,7 @@ def stock(debug, notsend):
     os.environ["DEBUG"] = "true"
   if notsend:
     os.environ["NOTSEND"] = "true"
-  sys.path.append('../')
+  sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../')
   from gevjon.stock import send_stock_index
   send_stock_index()
 

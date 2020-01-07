@@ -43,6 +43,6 @@ RUN pip3 install setuptools --upgrade
 RUN pip3 install -r ${GEVJON_REPO_DIR}/requirements/requirements.txt
 RUN pip3 install -U ${GEVJON_REPO_DIR}
 
-ADD gevjon/crontab/cron-file /etc/cron.d/cron-file
+RUN cp -a ${GEVJON_REPO_DIR}/crontab/cron-file /etc/cron.d/cron-file
 RUN chmod 0644 /etc/cron.d/cron-file
 RUN crontable /etc/cron.d/cron-file

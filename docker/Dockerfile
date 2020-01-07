@@ -28,18 +28,7 @@ RUN apt update && apt install -y \
     python3 \
     python3-pip \
     python3-setuptools \
-    --no-install-recommends && \
-    cp -a \
-    /usr/local/lib/python3.6/dist-packages/pytz/zoneinfo/Asia/Shanghai \
-    /etc/localtime && \
-    export DEBIAN_FRONTEND=noninteractive && \
-    apt install -y tzdata &&\
-    apt -y autoremove && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Set TimeZone, ubuntu 18.04 not have file /usr/share/zoneinfo/Asia/Shanghai
-# RUN cp -a /usr/local/lib/python3.6/dist-packages/pytz/zoneinfo/Asia/Shanghai /etc/localtime
+    --no-install-recommends
 
 RUN git clone --depth=1 -b $BRANCH https://github.com/louielong/gevjon.git ${GEVJON_REPO_DIR}
 
@@ -47,6 +36,15 @@ RUN git clone --depth=1 -b $BRANCH https://github.com/louielong/gevjon.git ${GEV
 RUN pip3 install setuptools --upgrade
 RUN pip3 install -r ${GEVJON_REPO_DIR}/requirements/requirements.txt
 RUN pip3 install -U ${GEVJON_REPO_DIR}
+
+# Set TimeZone, ubuntu 18.04 not have file /usr/share/zoneinfo/Asia/Shanghai
+RUN cp -a /usr/local/lib/python3.6/dist-packages/pytz/zoneinfo/Asia/Shanghai \
+    /etc/localtime && \
+    export DEBIAN_FRONTEND=noninteractive && \
+    apt install -y tzdata &&\
+    apt -y autoremove && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN cp -a ${GEVJON_REPO_DIR}/crontab/cron-file /etc/cron.d/cron-file
 RUN chmod 0644 /etc/cron.d/cron-file

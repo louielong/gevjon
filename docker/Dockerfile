@@ -51,4 +51,4 @@ RUN chmod 0644 /etc/cron.d/cron-file
 RUN crontab /etc/cron.d/cron-file
 RUN service cron start
 
-ENTRYPOINT [ "/bin/bash" ]
+CMD ["/bin/bash"]

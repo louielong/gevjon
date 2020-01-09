@@ -35,6 +35,8 @@ RUN pip3 install --upgrade pip
 RUN pip3 install setuptools --upgrade
 RUN pip3 install -r ${GEVJON_REPO_DIR}/requirements/requirements.txt
 RUN pip3 install -U ${GEVJON_REPO_DIR}
+# link config file to python lib
+RUN ln -fs ${GEVJON_REPO_DIR}/config/config.yaml /usr/local/lib/python3.6/dist-packages/config/config.yaml
 
 # Set TimeZone, ubuntu 18.04 not have file /usr/share/zoneinfo/Asia/Shanghai
 RUN cp -a /usr/local/lib/python3.6/dist-packages/pytz/zoneinfo/Asia/Shanghai \

@@ -7,5 +7,5 @@
 ##############################################################################
 
 # Every workday 14:30 run
-30 14 * * 1-5 export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && /usr/local/bin/gevjon stock
+30 14 * * 1-5 . /root/.bashrc;/usr/local/bin/gevjon stock >> /tmp/gevjon/crontab.log 2>&1
 

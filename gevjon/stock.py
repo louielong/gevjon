@@ -8,10 +8,12 @@
 
 import os
 import json
+import time
 
+import utils.logger as log
 from utils.stock_index import stock_index
 from utils.sc_ftqq import sc_ftqq
-import utils.logger as log
+from utils.parser import Parser as config
 
 LOG = log.Logger(__name__).getLogger()
 
@@ -23,7 +25,7 @@ class Stock:
   def get_sh_sz_index(self):
     index = stock_index()
     df = index.get_change_now(['sh','sz'])
-    content = ''
+    content = time.strftime('%Y-%m-%d %H:%M ',time.localtime(time.time()))
     if not df.empty:
       sh = df.iloc[0]
       sh_change = float(sh.price) - float(sh.pre_close)
@@ -31,11 +33,11 @@ class Stock:
       sz_change = float(sz.price) - float(sz.pre_close)
 
       if sh_change > 0:
-        content = "上证指数上涨：%.2f, " %sh_change
+        content += "上证指数上涨：%.2f, " %sh_change
       elif sh_change < 0:
-        content = "上证指数下跌：%.2f, " %sh_change
+        content += "上证指数下跌：%.2f, " %sh_change
       elif sh_change == 0:
-        content = "上证指数持平, "
+        content += "上证指数持平, "
 
       if sz_change > 0:
         content += "深证指数上涨：%.2f 。" %sz_change
@@ -54,7 +56,7 @@ class Stock:
     if os.getenv('NOTSEND'):
       return
     if content:
-      apikey = os.getenv('APIKEY')
+      apikey = config.gevjon_config['apikey']
       if apikey != None:
         sc = sc_ftqq(apikey)
         LOG.debug("Bind SeverChain APIKEY %s" %apikey)

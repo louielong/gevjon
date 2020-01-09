@@ -17,9 +17,8 @@ ARG BRANCH=master
 # Gevjon repo
 ENV GEVJON_REPO_DIR /root/gevjon
 
-# Set local
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
+# Set local char
+RUN echo "\nexport LC_ALL=C.UTF-8\nexport LANG=C.UTF-8\n" >> /root/.bashrc
 
 #new required packages can be added here
 RUN apt update && apt install -y \
@@ -32,7 +31,7 @@ RUN apt update && apt install -y \
 
 RUN git clone --depth=1 -b $BRANCH https://github.com/louielong/gevjon.git ${GEVJON_REPO_DIR}
 
-#RUN pip3 install --upgrade pip3
+RUN pip3 install --upgrade pip
 RUN pip3 install setuptools --upgrade
 RUN pip3 install -r ${GEVJON_REPO_DIR}/requirements/requirements.txt
 RUN pip3 install -U ${GEVJON_REPO_DIR}
@@ -51,4 +50,3 @@ RUN chmod 0644 /etc/cron.d/cron-file
 RUN crontab /etc/cron.d/cron-file
 RUN service cron start
 
-CMD ["/bin/bash"]

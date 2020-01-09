@@ -15,6 +15,7 @@ import yaml
 
 class Parser():
     """配置文件解析"""
+    gevjon_config = {}
 
     @classmethod
     def config_init(cls):
@@ -27,8 +28,10 @@ class Parser():
 
         with open(config_dir) as file:
             config_info = yaml.safe_load(file)
-            cls.config = config_info['common_config']
-            cls.config_dir_check(cls.config["log_dir"])
+            common_config = config_info['common_config']
+            cls.gevjon_config['log_dir']= common_config['log_dir']
+            cls.gevjon_config['apikey'] = common_config['apikey']
+            cls.config_dir_check(cls.gevjon_config['log_dir'])
 
     @classmethod
     def config_dir_check(cls, dirname):

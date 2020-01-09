@@ -45,7 +45,7 @@ class Logger:
             ch.setLevel(logging.INFO)
         self.logger.addHandler(ch)
 
-        log_path = conf_parser.config["log_dir"]
+        log_path = conf_parser.gevjon_config["log_dir"]
         if not os.path.exists(log_path):
             os.makedirs(log_path)
         log_file = os.path.join(log_path, 'gevjon.log')

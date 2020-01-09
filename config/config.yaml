@@ -7,3 +7,4 @@
 
 common_config:
   log_dir: '/tmp/gevjon'
+  apikey: 'AKIKEY'

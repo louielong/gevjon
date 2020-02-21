@@ -29,20 +29,22 @@ class Stock:
     if not df.empty:
       sh = df.iloc[0]
       sh_change = float(sh.price) - float(sh.pre_close)
+      sh_ratio = (sh_change * 100)/float(sh.pre_close)
       sz = df.iloc[1]
       sz_change = float(sz.price) - float(sz.pre_close)
+      sz_ratio = (sz_change * 100)/float(sz.pre_close)
 
       if sh_change > 0:
-        content += "上证指数上涨：%.2f, " %sh_change
+        content += "上证指数上涨: %.2f, 涨幅: %.2f%%, " % (sh_change, sh_ratio)
       elif sh_change < 0:
-        content += "上证指数下跌：%.2f, " %sh_change
+        content += "上证指数下跌: %.2f, 跌幅: %.2f%%, " % (sh_change, sh_ratio)
       elif sh_change == 0:
         content += "上证指数持平, "
 
       if sz_change > 0:
-        content += "深证指数上涨：%.2f 。" %sz_change
+        content += "深证指数上涨: %.2f, 涨幅: %.2f%%。" % (sz_change, sz_ratio)
       elif sz_change < 0:
-        content += "深证指数下跌：%.2f 。" %sz_change
+        content += "深证指数下跌: %.2f, 涨幅: %.2f%%。" % (sz_change, sz_ratio)
       elif sz_change == 0:
         content += "深证指数持平 。"
       LOG.info("%s" % content)

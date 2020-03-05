@@ -31,10 +31,10 @@ RUN apt update && apt install -y \
 
 RUN git clone --depth=1 -b $BRANCH https://github.com/louielong/gevjon.git ${GEVJON_REPO_DIR}
 
-RUN pip3 install --upgrade pip
-RUN pip3 install setuptools --upgrade
-RUN pip3 install -r ${GEVJON_REPO_DIR}/requirements/requirements.txt
-RUN pip3 install -U ${GEVJON_REPO_DIR}
+RUN pip3 install --upgrade pip && \
+    pip3 install setuptools --upgrade && \
+    pip3 install -r ${GEVJON_REPO_DIR}/requirements/requirements.txt && \
+    pip3 install -U ${GEVJON_REPO_DIR}
 # link config file to python lib
 RUN ln -fs ${GEVJON_REPO_DIR}/config/config.yaml /usr/local/lib/python3.6/dist-packages/config/config.yaml
 
@@ -47,8 +47,10 @@ RUN cp -a /usr/local/lib/python3.6/dist-packages/pytz/zoneinfo/Asia/Shanghai \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN cp -a ${GEVJON_REPO_DIR}/crontab/cron-file /etc/cron.d/cron-file
-RUN chmod 0644 /etc/cron.d/cron-file
-RUN crontab /etc/cron.d/cron-file
-RUN service cron start
+RUN cp -a ${GEVJON_REPO_DIR}/crontab/cron-file /etc/cron.d/cron-file && \
+    chmod 0644 /etc/cron.d/cron-file && \
+    crontab /etc/cron.d/cron-file && \
+    touch /var/log/cron.log
 
+ENV HOME $GEVJON_REPO_DIR
+CMD ["sh", "-c", "/usr/sbin/cron && tail -f /var/log/cron.log"]
